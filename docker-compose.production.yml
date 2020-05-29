@@ -1,0 +1,21 @@
+version: '2'
+services:
+  server:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/production/Dockerfile
+    extends:
+      file: docker-compose.common.yml
+      service: server
+  web:
+    extends:
+      file: docker-compose.common.yml
+      service: web
+    depends_on:
+      - server
+    environment:
+      RAILS_ENV: production
+      DB_HOST: ◯◯.△△.ap-northeast-1.rds.amazonaws.com
+      DB_USERNAME: admin
+      DB_PASSWORD: パスワード
+      DB_DATABASE: rails_form_training
