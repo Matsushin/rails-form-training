@@ -36,3 +36,6 @@
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+docker/mysql/volumes
+docker/mysql/var/lib/*
