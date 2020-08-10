@@ -35,12 +35,6 @@ jobs:
           echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
           curl -sL https://deb.nodesource.com/setup_12.x | bash -
           apt install -y yarn nodejs
-      - name: Install chrome
-        run: |
-          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
-          echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/google-chrome.list
-          apt update -y
-          apt install -y google-chrome-stable
       - name: bundle install
         run: |
           gem install bundler
@@ -51,10 +45,3 @@ jobs:
         run: bundle exec rails db:create db:schema:load --trace
       - name: run rspec
         run: bundle exec rspec
-
-      - name: Archive rspec result screenshots
-        if: failure()
-        uses: actions/upload-artifact@v1
-        with:
-          name: rspec result screenshots
-          path: tmp/screenshots/
