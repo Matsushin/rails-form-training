@@ -10,7 +10,7 @@ RUN apt-get update && \
     npm install -g yarn && \
     yarn --version
 
-WORKDIR /var/www/front
+WORKDIR /var/www/web
 
 COPY ./docker/nginx/conf.d/default.conf /etc/nginx/conf.d/
 
