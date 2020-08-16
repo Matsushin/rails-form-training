@@ -11,7 +11,9 @@ export RAILS_LOG_TO_STDOUT=1
 bundle install
 bundle exec rails db:create
 bundle exec rails db:migrate
+ls -all /var/www/web/public/packs/js
+ls -all /var/www/web/public/assets
+# bundle exec rails db:seed
 
-bundle exec rake assets:precompile
 bundle exec rails s -p 3000 -b '0.0.0.0'
 

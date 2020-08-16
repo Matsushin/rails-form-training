@@ -13,6 +13,9 @@ RUN npm install -g yarn
 RUN bundle install
 
 COPY ./ .
+RUN RAILS_ENV=production SECRET_KEY_BASE=1 bundle exec rails assets:precompile
+RUN ls -all /var/www/web/public/packs/js
+RUN ls -all /var/www/web/public/assets
 
 COPY ./services.sh /var/www/scripts/
 RUN chmod +x /var/www/scripts/services.sh
