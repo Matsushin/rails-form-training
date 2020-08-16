@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+
+  web:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/web/Dockerfile.local
+    volumes:
+      - ./:/var/www/web:cached
+      - bundle:/bundle:cached
+      - /var/www/web/log
+      - ./tmp:/var/www/web/tmp
+      - /var/www/web/vendor
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    environment:
+      RAILS_ENV: development
+      DATABASE_HOST: mysql
+      DATABASE_USER: root
+      DATABASE_PASSWORD: ''
+    command: bash -c "/var/www/web/services.local.sh"
+  mysql:
+    image: mysql:5.7.28
+    ports:
+      - 127.0.0.1:3306:3306
+    environment:
+      MYSQL_USER: 'root'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - ./docker/mysql/etc:/etc/mysql
+      - ./docker/mysql/var/lib:/var/lib/mysql
+
+  nginx:
+    image: nginx:1.17.5
+    volumes:
+      - ./docker/nginx/conf.d.local:/etc/nginx/conf.d/
+    ports:
+      - 127.0.0.1:80:80
+    links:
+      - web
+    depends_on:
+      - web
+
+volumes:
+  bundle:
+    driver: local
